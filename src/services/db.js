@@ -134,6 +134,7 @@ export const getPendingRequests = async () => {
     .from('transactions')
     .select('*')
     .eq('status', 'pending')
+    .eq('type', 'withdraw')
     .order('created_at', { ascending: false });
 
   if (error) throw error;
