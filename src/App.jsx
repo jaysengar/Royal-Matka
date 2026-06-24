@@ -21,6 +21,7 @@ import ProfilePage from './pages/ProfilePage';
 import ChartPage from './pages/ChartPage'; 
 import NotificationsPage from './pages/NotificationsPage';
 import GameRatesPage from './pages/GameRatesPage';
+import TermsPage from './pages/TermsPage';
 
 // --- HELPER: SCROLL TO TOP ---
 const ScrollToTop = () => {
@@ -211,6 +212,7 @@ function App() {
         {/* PUBLIC */}
         <Route path="/login" element={!user ? <LoginPage /> : <Navigate to="/" />} />
         <Route path="/payment-status" element={<PaymentStatus />} />
+        <Route path="/terms" element={<TermsPage />} />
 
         {/* ADMIN */}
         <Route path="/admin" element={<AdminPage />} />

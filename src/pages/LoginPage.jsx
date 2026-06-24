@@ -15,6 +15,7 @@ function LoginPage() {
   const [otp, setOtp] = useState('');
   const [step, setStep] = useState('INPUT_PHONE'); // 'INPUT_PHONE' | 'INPUT_OTP'
   const [loading, setLoading] = useState(false);
+  const [acceptTerms, setAcceptTerms] = useState(false);
   
   // Security & UX States
   const [timer, setTimer] = useState(0); // Anti-Spam Timer
@@ -38,6 +39,7 @@ function LoginPage() {
 
   // --- SEND OTP (Supabase) ---
   const handleSendOtp = async (isResend = false) => {
+    if (!acceptTerms) return showToast("Please accept Terms & Conditions", "error");
     if (!phone || phone.length !== 10) return showToast("Enter valid 10-digit number", "error");
     if (timer > 0 && isResend) return showToast(`Wait ${timer}s before resending`, "error");
 
@@ -188,15 +190,28 @@ function LoginPage() {
                                 style={styles.input}
                             />
                         </div>
+
+                        <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', marginTop: '15px', marginBottom: '15px' }}>
+                          <input 
+                            type="checkbox" 
+                            id="terms" 
+                            checked={acceptTerms} 
+                            onChange={(e) => setAcceptTerms(e.target.checked)} 
+                            style={{ marginTop: '2px', width: '16px', height: '16px', accentColor: '#FFD700', cursor: 'pointer' }}
+                          />
+                          <label htmlFor="terms" style={{ fontSize: '11px', color: '#888', lineHeight: 1.4, cursor: 'pointer' }}>
+                            I accept the <a href="/terms" onClick={(e) => { e.preventDefault(); navigate('/terms'); }} style={{ color: '#FFD700', textDecoration: 'none', fontWeight: 'bold' }}>Terms & Conditions</a> and Privacy Policy.
+                          </label>
+                        </div>
+
                         <motion.button 
                             whileTap={{scale:0.97}}
                             onClick={() => handleSendOtp(false)} 
-                            disabled={loading}
-                            style={{...styles.primaryBtn, opacity: loading ? 0.7 : 1}}
+                            disabled={loading || !acceptTerms}
+                            style={{...styles.primaryBtn, marginTop: 0, opacity: (loading || !acceptTerms) ? 0.5 : 1}}
                         >
                             {loading ? <Loader2 className="spin" size={20} color="black"/> : <>GET OTP <ArrowRight size={20} /></>}
                         </motion.button>
-                        <p style={{textAlign:'center', fontSize:'10px', color:'#555', marginTop:'15px'}}>By logging in, you agree to our Terms.</p>
                     </motion.div>
                 )}
 
