@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "376362116184",
+    "project_id": "royal-matka-29f93",
+    "storage_bucket": "royal-matka-29f93.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:376362116184:android:13a71dc86350a3ec96962d",
+        "android_client_info": {
+          "package_name": "com.royalmatka.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyABPv5OEC2--_9_ULu7uMU0nBOX0ZIjUM8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

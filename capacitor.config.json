@@ -1,0 +1,13 @@
+{
+  "appId": "com.royalmatka.app",
+  "appName": "Royal Matka",
+  "webDir": "dist",
+  "server": {
+    "androidScheme": "https",
+    "allowNavigation": [
+      "*.tranzupi.com",
+      "*.google.com",
+      "*.vercel.app"
+    ]
+  }
+}

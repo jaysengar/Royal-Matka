@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Royal Matka</string>
+    <string name="title_activity_main">Royal Matka</string>
+    <string name="package_name">com.royalmatka.app</string>
+    <string name="custom_url_scheme">com.royalmatka.app</string>
+</resources>
