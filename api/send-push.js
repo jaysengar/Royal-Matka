@@ -1,5 +1,6 @@
 // api/send-push.js
-import admin from 'firebase-admin';
+import { initializeApp, cert, getApps } from 'firebase-admin/app';
+import { getMessaging } from 'firebase-admin/messaging';
 import { createClient } from '@supabase/supabase-js';
 
 // Initialize Supabase
@@ -8,12 +9,12 @@ const supabaseKey = process.env.VITE_SUPABASE_ANON_KEY || process.env.SUPABASE_A
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 // Initialize Firebase Admin (only once)
-if (!admin.apps.length) {
+if (!getApps().length) {
   try {
     if (process.env.FIREBASE_SERVICE_ACCOUNT) {
         const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
-        admin.initializeApp({
-        credential: admin.credential.cert(serviceAccount)
+        initializeApp({
+            credential: cert(serviceAccount)
         });
     } else {
         console.warn("FIREBASE_SERVICE_ACCOUNT is not set in environment variables.");
@@ -44,7 +45,7 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  if (!admin.apps.length) {
+  if (!getApps().length) {
       return res.status(500).json({ error: 'Firebase Admin not initialized. Check FIREBASE_SERVICE_ACCOUNT env var.' });
   }
 
@@ -94,7 +95,7 @@ export default async function handler(req, res) {
     };
 
     // Use sendEachForMulticast in newer firebase-admin SDKs
-    const response = await admin.messaging().sendEachForMulticast(message);
+    const response = await getMessaging().sendEachForMulticast(message);
     
     return res.status(200).json({ 
         message: 'Push notifications processed',
