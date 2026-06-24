@@ -96,9 +96,23 @@ export default async function handler(req, res) {
 
     // Use sendEachForMulticast in newer firebase-admin SDKs
     const response = await getMessaging().sendEachForMulticast(message);
+
+    // Save to Database
+    const notificationPayload = {
+      user_id: userId === 'ALL' || !userId ? 'ALL' : userId,
+      title: title,
+      body: body,
+      type: 'info'
+    };
+    await supabase.from('notifications').insert(notificationPayload);
+
+    // Cleanup: Delete notifications older than 7 days
+    const sevenDaysAgo = new Date();
+    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+    await supabase.from('notifications').delete().lt('created_at', sevenDaysAgo.toISOString());
     
     return res.status(200).json({ 
-        message: 'Push notifications processed',
+        message: 'Push notifications processed and saved',
         successCount: response.successCount,
         failureCount: response.failureCount
     });

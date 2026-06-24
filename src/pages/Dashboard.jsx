@@ -150,7 +150,10 @@ function Dashboard() {
 
       {/* --- NOTICE BOARD --- */}
       <div style={{ background: '#111', padding: '10px 15px', display: 'flex', alignItems: 'center', gap: '12px', borderBottom: '1px solid #222' }}>
-        <div style={{background:'rgba(255, 215, 0, 0.1)', padding:'6px', borderRadius:'8px'}}>
+        <div 
+          onClick={() => navigate('/notifications')}
+          style={{background:'rgba(255, 215, 0, 0.1)', padding:'6px', borderRadius:'8px', cursor:'pointer'}}
+        >
            <Bell size={16} color="#FFD700" />
         </div>
         <div style={{ overflow: 'hidden', width: '100%', position: 'relative' }}>

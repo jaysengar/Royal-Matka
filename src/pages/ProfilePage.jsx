@@ -180,6 +180,13 @@ function ProfilePage() {
             label="Game Rules" 
             onClick={() => setActiveModal('rules')}
         />
+
+        <MenuItem 
+            icon={<ShieldCheck color="#FFD700" size={20} />} 
+            label="Terms & Conditions" 
+            onClick={() => navigate('/terms')}
+            subLabel="Privacy & Policies"
+        />
         
         <div style={{marginTop:'30px'}}>
             <MenuItem 
