@@ -461,7 +461,7 @@ DECLARE
   v_bet_parts TEXT[];
 BEGIN
   v_admin_id := auth.uid();
-  IF NOT EXISTS (SELECT 1 FROM public.users WHERE id = v_admin_id AND is_admin = true) THEN
+  IF v_admin_id IS NOT NULL AND NOT EXISTS (SELECT 1 FROM public.users WHERE id = v_admin_id AND is_admin = true) THEN
     RAISE EXCEPTION 'Unauthorized';
   END IF;
 
