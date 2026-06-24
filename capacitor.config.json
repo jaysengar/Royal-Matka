@@ -3,11 +3,26 @@
   "appName": "Royal Matka",
   "webDir": "dist",
   "server": {
+    "url": "https://royal-matka.vercel.app/",
     "androidScheme": "https",
+    "cleartext": true,
     "allowNavigation": [
       "*.tranzupi.com",
       "*.google.com",
       "*.vercel.app"
     ]
+  },
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 500,
+      "launchAutoHide": true,
+      "launchFadeOutDuration": 200,
+      "backgroundColor": "#ffffffff",
+      "androidSplashResourceName": "splash",
+      "androidScaleType": "CENTER_CROP",
+      "showSpinner": false,
+      "splashFullScreen": true,
+      "splashImmersive": true
+    }
   }
 }
