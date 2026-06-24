@@ -442,7 +442,7 @@ export const sendNotification = async (userId, title, body, type = 'info') => {
     });
 
     // Trigger Native Push Notification via Vercel API
-    fetch('/api/send-push', {
+    fetch('https://royal-matka.vercel.app/api/send-push', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ userId, title, body })
