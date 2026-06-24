@@ -4,7 +4,8 @@ import { supabase } from './supabase';
 import { Loader2, AlertTriangle } from 'lucide-react'; 
 import { App as CapacitorApp } from '@capacitor/app';
 import { Capacitor } from '@capacitor/core';
-import { listenToMaintenance } from './services/db'; 
+import { listenToMaintenance, saveFcmToken } from './services/db'; 
+import { PushNotifications } from '@capacitor/push-notifications';
 
 // --- PAGES ---
 import Website from './pages/Website';
@@ -97,10 +98,35 @@ function App() {
         setIsMaintenance(status);
     });
 
+    // Push Notification Setup
+    const setupPushNotifications = async (userId) => {
+      if (isNativeApp) {
+        try {
+          let permStatus = await PushNotifications.checkPermissions();
+          if (permStatus.receive === 'prompt') {
+            permStatus = await PushNotifications.requestPermissions();
+          }
+          if (permStatus.receive !== 'granted') return;
+
+          await PushNotifications.register();
+
+          // Remove old listeners to prevent duplicates
+          await PushNotifications.removeAllListeners();
+
+          PushNotifications.addListener('registration', (token) => {
+            saveFcmToken(userId, token.value);
+          });
+        } catch (e) {
+          console.error("Push Setup Error", e);
+        }
+      }
+    };
+
     // C. Supabase Auth Listener (replaces Firebase onAuthStateChanged)
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (event, session) => {
         setUser(session?.user || null);
+        if (session?.user) setupPushNotifications(session.user.id);
         setTimeout(() => setInitializing(false), 1500);
       }
     );
@@ -108,6 +134,7 @@ function App() {
     // Also check initial session
     supabase.auth.getSession().then(({ data: { session } }) => {
       setUser(session?.user || null);
+      if (session?.user) setupPushNotifications(session.user.id);
       setTimeout(() => setInitializing(false), 1500);
     });
 

@@ -440,6 +440,14 @@ export const sendNotification = async (userId, title, body, type = 'info') => {
       body: body,
       type: type,
     });
+
+    // Trigger Native Push Notification via Vercel API
+    fetch('/api/send-push', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userId, title, body })
+    }).catch(err => console.error("Push API Error:", err));
+
   } catch (error) {
     console.error("Notif Error:", error);
   }
@@ -715,4 +723,17 @@ export const checkAdminStatus = async () => {
   const { data, error } = await supabase.rpc('check_admin_status');
   if (error) return false;
   return data === true;
+};
+
+// --- FCM TOKEN HANDLING ---
+export const saveFcmToken = async (userId, token) => {
+  try {
+    const { error } = await supabase
+      .from('users')
+      .update({ fcm_token: token })
+      .eq('id', userId);
+    if (error) console.error("Error saving FCM Token:", error);
+  } catch (err) {
+    console.error("FCM Token Catch:", err);
+  }
 };

@@ -15,6 +15,7 @@ CREATE TABLE IF NOT EXISTS public.users (
   balance DECIMAL(12,2) NOT NULL DEFAULT 0 CHECK (balance >= 0),
   is_blocked BOOLEAN NOT NULL DEFAULT false,
   is_admin BOOLEAN NOT NULL DEFAULT false,
+  fcm_token TEXT,
   created_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
