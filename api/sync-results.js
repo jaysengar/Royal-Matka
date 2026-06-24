@@ -72,7 +72,7 @@ export default async function handler(req, res) {
           const { error: rpcError } = await supabase.rpc('declare_result_and_pay', {
               p_market_name: marketName,
               p_input: openInput,
-              p_session: 'open'
+              p_session: 'Open'
           });
           if (rpcError) {
               console.error(`Error declaring open for ${marketName}:`, rpcError);
@@ -91,7 +91,7 @@ export default async function handler(req, res) {
           const { error: rpcError } = await supabase.rpc('declare_result_and_pay', {
               p_market_name: marketName,
               p_input: closeInput,
-              p_session: 'close'
+              p_session: 'Close'
           });
           if (rpcError) {
               console.error(`Error declaring close for ${marketName}:`, rpcError);
